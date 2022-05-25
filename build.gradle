@@ -1,0 +1,55 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0-M1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.diffplug.spotless' version '6.3.0'
+}
+
+group = 'com.ssl.accrediator'
+version = '1.0.0'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+
+	//App
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.apache.commons:commons-lang3:3.9'
+	implementation 'org.apache.commons:commons-collections4:4.0'
+
+	//Formatting
+	implementation 'com.google.googlejavaformat:google-java-format:1.8'
+
+	//Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+
+spotless {
+// optional: limit format enforcement to just the files changed by this feature branch
+//ratchetFrom 'origin/main'
+
+format 'misc', {
+	// define the files to apply `misc` to
+	target '*.gradle', '*.md', '.gitignore'
+
+	// define the steps to apply to those files
+	trimTrailingWhitespace()
+	indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+	endWithNewline()
+}
+java {
+
+	importOrder()
+	licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
+}
+}
